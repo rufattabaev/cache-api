@@ -28,12 +28,6 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         if (entry == null) {
             return null;
         }
-
-        long timestamp = entry.getExpireBy();
-        if (timestamp != -1 && System.currentTimeMillis() > timestamp) {
-            remove(key);
-            return null;
-        }
         return entry.getEntry();
     }
 
@@ -49,15 +43,14 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         return null;
     }
 
-    public void put(K key, V value, int secondsToLive) {
+    public void put(K key, V value) {
         if (key == null) {
             throw new IllegalArgumentException("Invalid Key.");
         }
         if (value == null) {
             throw new IllegalArgumentException("Invalid Value.");
         }
-        long expireBy = secondsToLive != -1 ? System.currentTimeMillis()
-                + (secondsToLive * 1000) : secondsToLive;
+
         boolean exists = cache.containsKey(key);
         if (!exists) {
             cacheSize.incrementAndGet();
@@ -65,7 +58,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
                 remove(queue.poll());
             }
         }
-        cache.put(key, new CacheEntry<V>(expireBy, value));
+        cache.put(key, new CacheEntry<V>(value));
         queue.add(key);
     }
 
@@ -104,22 +97,19 @@ public class CacheImpl<K, V> implements Cache<K, V> {
     }
 
     private class CacheEntry<V> {
-        private long expireBy;
         private V entry;
 
-        CacheEntry(long expireBy, V entry) {
+        CacheEntry(V entry) {
             super();
-            this.expireBy = expireBy;
             this.entry = entry;
-        }
-
-        long getExpireBy() {
-            return expireBy;
         }
 
         V getEntry() {
             return entry;
         }
+    }
 
+    public Map<K, CacheEntry<V>> getCache() {
+        return cache;
     }
 }

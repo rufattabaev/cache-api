@@ -13,19 +13,15 @@ public interface Cache<K, V> {
      *            или для удаления записи до окончания её жизненного цикла.
      * @param value
      *            Фактический объект, который должен быть кэширован
-     * @param secondsToLive
-     *            Время жизненного цикла в секундах, так, если жизненный цикл
-     *            записи кэша должен быть равным 5 минут, нужно указать 300.
-     *            Если нет необходимости в указани времени жизни, ввести значение -1
      * @throws IllegalArgumentException
      *             Выбрасывает illegal argument exception, если ключ или значение равны
      *             null.
      */
-    void put(K key, V value, int secondsToLive);
+    void put(K key, V value);
 
     /**
      * Извлекает из кэша запись, которая ранее была кэширована, используя
-     * {@link #put(Object, Object, int)}
+     * {@link #put(Object, Object)}
      *
      * @param key
      *            Ключ, с которым запись была кэширована

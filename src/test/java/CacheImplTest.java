@@ -18,7 +18,7 @@ class CacheImplTest {
         String s = "This is a string I want to cache...";
         String st = "This is unexpected string";
         CacheImpl cache = new CacheImpl(100);
-        cache.put(1, s, 5);
+        cache.put(1, s);
         assertEquals(s, cache.get(1));
     }
 
@@ -26,7 +26,7 @@ class CacheImplTest {
     void removeAndGet() {
         String s = "This is a string I want to cache...";
         CacheImpl cache = new CacheImpl(100);
-        cache.put(1, s, 5);
+        cache.put(1, s);
         Object obj = cache.removeAndGet(1);
         assertEquals(obj, s);
     }
@@ -36,7 +36,7 @@ class CacheImplTest {
     void remove() {
         String s = "This is a string I want to cache...";
         CacheImpl cache = new CacheImpl(100);
-        cache.put(1, s, 5);
+        cache.put(1, s);
         cache.remove(1);
         assertTrue(true);
     }
@@ -45,7 +45,7 @@ class CacheImplTest {
     void size() {
         String s = "This is a string I want to cache...";
         CacheImpl cache = new CacheImpl(100);
-        cache.put(1, s, 5);
+        cache.put(1, s);
         assertEquals(1, cache.size());
     }
 
@@ -55,9 +55,9 @@ class CacheImplTest {
         String b = "b";
         String c = "c";
         CacheImpl cache = new CacheImpl(100);
-        cache.put(1, a, 1);
-        cache.put(2, b, 1);
-        cache.put(3, c, 1);
+        cache.put(1, a);
+        cache.put(2, b);
+        cache.put(3, c);
         Collection collection = new ArrayList<>();
         collection.add(1);
         collection.add(2);
@@ -79,9 +79,9 @@ class CacheImplTest {
         String c = "c";
         String d = "d";
         CacheImpl cache = new CacheImpl(100);
-        cache.put(1, a, 1);
-        cache.put(2, b, 1);
-        cache.put(3, c, 1);
+        cache.put(1, a);
+        cache.put(2, b);
+        cache.put(3, c);
         cache.clear();
         assertEquals(0, cache.mapSize());
     }
@@ -90,7 +90,7 @@ class CacheImplTest {
     void testOverage(){
         CacheImpl cache = new CacheImpl(100);
         for(int i = 0; i < 110; i++){
-            cache.put(i+"", i, 500);
+            cache.put(i+"", i);
         }
         assertEquals(100, cache.size());
         assertEquals(100, cache.mapSize());
